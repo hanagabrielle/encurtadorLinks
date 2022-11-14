@@ -1,0 +1,222 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+      "title": "Encurtador de links",
+      "description": "API para encurtar url, além de salvar e gerenciar cada encurtamento.",
+      "contact": {
+        "email": "lip-sousa@hotmail.com"
+      },
+      "version": "1.0"
+    },
+    "servers": [
+      {
+        "url": "http://localhost:3000"
+      }
+    ],
+    "paths": {
+        "/registrar": {
+            "post": {
+                "sumary": "Encurtar uma url",
+                "description": "Rota responsável por encurtar um link a partir de um nome fornecido. Caso não seja fornecido um nome, será criado um hash aleatório de 8 digitos.",
+                "requestBody": {
+                    "content": {
+                      "application/json": {
+                        "schema":{
+                            "$ref":"#/components/schemas/requisicao_registro"
+                        },
+                        "examples": {
+                            "registrar": {
+                                "value": {
+                                    "url": "",
+                                    "alias":""                          
+                                }
+                            }
+                            
+                        }
+                      }
+                    }
+                },
+                "responses": {
+                    "200":{
+                        "description": "Resposta positiva",
+                        "body": {
+                            "mensagem": "Registro desativado.",
+                            "registro": {
+                                "id": "a384d9b0-b53c-436f-9648-a914d43d0dd2",
+                                "alias": "zi7eqisi",
+                                "link_original": "https://www.youtube.com/watch?v=Bv-1BnoB75k&list=RDBv-1BnoB75k&start_radio=1",
+                                "link_status": true,
+                                "createdAt": "2022-09-12 14:25:38.516 +00:00",
+                                "updatedAt": "2022-09-12 14:25:38.516 +00:00"
+                            }
+                        }
+
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "body":{
+                            "mensagem": "Registro nao encontrado!",
+                            "id_registro": "a384d9b0-b53c-436f-9648-a914d43d0dd2"
+                        }
+                    },
+                    "500": {
+                        "description": "Erro interno",
+                        "body": {
+                            "mensagem": "Um erro interno do servidor impede o link de ser desativado.",
+                            "id_registro": "a384d9b0-b53c-436f-9648-a914d43d0dd2"
+                        }
+                    }
+                }
+            }
+        },
+        "/l/{alias}": {
+            "get": {
+                "sumary": "Acessar link encurtado.",
+                "description": "Acesse http://localhost/l/nome_encurtado para ser redirecionado ao link original.",
+                "parameters": [{
+                    "in": "path",
+                    "name":"alias",
+                    "required": "true",
+                    "schema": {
+                        "type": "string",
+                        "example":""
+                    }
+                }],
+                "responses": {
+                    "200":{
+                        "description": "Resposta positiva",
+                        "body":{
+                            "mensagem":""
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "body":{
+                            "mensagem": "Link não corresponde a nenhum registro."
+                        }
+                    }
+                }
+            }
+        },
+        "/registros": {
+            "get": {
+                "sumary": "Mostar links",
+                "description": "Rota responsável por listar todos os registros já criados.",
+                "responses": {
+                    "200":{
+                        "description": "Resposta positiva",
+                        "body": {
+                            "mensagem": "Foram encontrados '+registros.length+' encurtamento(s) ativos!",
+                            "total_registros":"",
+                            "registros": [
+                                {
+                                    "id": "a384d9b0-b53c-436f-9648-a914d43d0dd2",
+                                    "alias": "zi7eqisi",
+                                    "link_original": "https://www.youtube.com/watch?v=Bv-1BnoB75k&list=RDBv-1BnoB75k&start_radio=1",
+                                    "link_status": true,
+                                    "createdAt": "2022-09-12 14:25:38.516 +00:00",
+                                    "updatedAt": "2022-09-12 14:25:38.516 +00:00"
+                                }
+                            ]
+                        }
+
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "body":{
+                            "mensagem": "Nao foram encontrados registros!"
+                        }
+                    }
+                }
+            }
+        },
+        "/desabilitar/{id_registro}": {
+            "put": {
+                "sumary": "Desabilitar Link",
+                "description": "Rota responsável por desabilitar um link ja criado.",
+                "parameters": [{
+                    "in": "path",
+                    "name":"id_registro",
+                    "required": "true",
+                    "schema": {
+                        "type": "string",
+                        "example":""
+                    }
+                }],
+                "responses": {
+                    "200":{
+                        "description": "Resposta positiva",
+                        "body": {
+                            "mensagem": "Registro desativado.",
+                            "registro": {
+                                "id": "a384d9b0-b53c-436f-9648-a914d43d0dd2",
+                                "alias": "zi7eqisi",
+                                "link_original": "https://www.youtube.com/watch?v=Bv-1BnoB75k&list=RDBv-1BnoB75k&start_radio=1",
+                                "link_status": true,
+                                "createdAt": "2022-09-12 14:25:38.516 +00:00",
+                                "updatedAt": "2022-09-12 14:25:38.516 +00:00"
+                            }
+                        }
+
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "body":{
+                            "mensagem": "Registro nao encontrado!",
+                            "id_registro": "a384d9b0-b53c-436f-9648-a914d43d0dd2"
+                        }
+                    },
+                    "500": {
+                        "description": "Erro interno",
+                        "body": {
+                            "mensagem": "Um erro interno do servidor impede o link de ser desativado.",
+                            "id_registro": "a384d9b0-b53c-436f-9648-a914d43d0dd2"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "requisicao_registro":{
+                "type": "object",
+                "properties": {
+                    "url": {
+                        "type": "string"
+                    },
+                    "alias": {
+                        "type": "string"
+                    }
+                }
+            },
+            "registro": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "alias": {
+                        "type": "string"
+                    },
+                    "link_original": {
+                        "type": "string"
+                    },
+                    "link_status":{
+                        "type": "boolean"
+                    },
+                    "createdAt":{
+                        "type": "timestamp"
+                    },
+                    "updatedAt": {
+                        "type": "timestamp"
+                    }
+                }
+            }
+        }        
+    },
+    "externalDocs": {
+        "description": "Veja outros exemplos de projetos nodejs e python no meu GitHub.",
+        "url": "https://github.com/felipepitoko?tab=repositories"
+    }
+}
